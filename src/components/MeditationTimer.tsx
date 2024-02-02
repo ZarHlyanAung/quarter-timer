@@ -8,20 +8,25 @@ const MeditationTimer: React.FC = () => {
   const [totalSeconds, setTotalSeconds] = useState<number>(0);
   const [quarterDuration, setQuarterDuration] = useState<number>(0);
   //   const [elapsedSeconds, setElapsedSeconds] = useState<number>(0);
-  const [counter, setCounter] = useState<number>(0);
+  const [counter, setCounter] = useState<number>(1);
 
   const [isActive, setIsActive] = useState<boolean>(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  const makeaQuarterSound = (times = 1) => {
+  const playTada = () => {
+    const audio = new Audio('./tada.flac');
+    audio.play();
+  };
+
+  const playQuarterSound = (times = 1) => {
     const play = () => {
       const audio = new Audio('./bell.wav');
       audio.play();
     };
 
-    const playSequentially = (index = 1) => {
-      play();
+    const playSequentially = (index = 0) => {
       if (index < times) {
+        play();
         setTimeout(() => playSequentially(index + 1), 2920); // Adjust the delay time (in milliseconds) as needed
       }
     };
@@ -36,7 +41,7 @@ const MeditationTimer: React.FC = () => {
       if (minutes === 0) {
         clearInterval(intervalRef.current);
         setCounter(0);
-        makeaQuarterSound();
+        playTada();
         // alert('Meditation time is up!');
         setIsActive(false);
       } else {
@@ -52,7 +57,7 @@ const MeditationTimer: React.FC = () => {
     const quarterDuration = totalSeconds / 4;
 
     if (elapsedSeconds > 0 && elapsedSeconds % quarterDuration === 0) {
-      makeaQuarterSound(counter);
+      playQuarterSound(counter == 4 ? 0 : counter);
       setCounter((prev) => prev + 1);
     }
   };
@@ -108,7 +113,7 @@ const MeditationTimer: React.FC = () => {
       <div>
         <button onClick={startTimer}>Start</button>
         <button onClick={resetTimer}>Reset</button>
-        <button onClick={makeaQuarterSound}>sound</button>
+        <button onClick={playQuarterSound}>sound</button>
       </div>
       <div>
         <p>
