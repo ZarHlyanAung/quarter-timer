@@ -1,5 +1,7 @@
 // src/MeditationTimer.tsx
 import React, { useState, useEffect, useRef } from 'react';
+import { playTada, playSound } from '../utils/soundUtils';
+import { saveRecord } from '../utils/saveRecord';
 
 const MeditationTimer: React.FC = () => {
   const [minutes, setMinutes] = useState<number>(0);
@@ -13,20 +15,10 @@ const MeditationTimer: React.FC = () => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  const playTada = () => {
-    const audio = new Audio('./tada.flac');
-    audio.play();
-  };
-
   const playQuarterSound = (times = 1) => {
-    const play = () => {
-      const audio = new Audio('./bell.wav');
-      audio.play();
-    };
-
     const playSequentially = (index = 0) => {
       if (index < times) {
-        play();
+        playSound();
         setTimeout(() => playSequentially(index + 1), 2920); // Adjust the delay time (in milliseconds) as needed
       }
     };
@@ -44,6 +36,7 @@ const MeditationTimer: React.FC = () => {
         playTada();
         // alert('Meditation time is up!');
         setIsActive(false);
+        saveRecord(totalSeconds / 60);
       } else {
         setMinutes((prevMinutes) => prevMinutes - 1);
         setSeconds(59);
@@ -69,7 +62,6 @@ const MeditationTimer: React.FC = () => {
       }, 1000);
     }
     return () => {
-      // Clear the interval when the component is unmounted or when isActive is false
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
       }
@@ -83,22 +75,36 @@ const MeditationTimer: React.FC = () => {
       setQuarterDuration((minutes * 60 + seconds) / 4);
     }
   };
+  const pauseTimer = () => {
+    if (minutes > 0 || seconds > 0) {
+      setIsActive(false);
+    }
+  };
+  const resumeTimer = () => {
+    if (minutes > 0 || seconds > 0) {
+      setIsActive(true);
+    }
+  };
 
   const resetTimer = () => {
     setIsActive(false);
     setMinutes(0);
     setSeconds(0);
+    setTotalSeconds(0);
+    setQuarterDuration(0);
+    setCounter(1);
   };
 
   return (
     <div>
       <div>
-        <label>
+        <label className="">
           Minutes:
           <input
             type="number"
             value={minutes}
             onChange={(e) => setMinutes(parseInt(e.target.value, 10))}
+            className="w-20 h-10 m-4 text-center rounded-md p-1"
           />
         </label>
         <label>
@@ -107,21 +113,31 @@ const MeditationTimer: React.FC = () => {
             type="number"
             value={seconds}
             onChange={(e) => setSeconds(parseInt(e.target.value, 10))}
+            className="w-20 h-10 m-4 text-center rounded-md p-1"
           />
         </label>
       </div>
       <div>
-        <button onClick={startTimer}>Start</button>
-        <button onClick={resetTimer}>Reset</button>
-        <button onClick={playQuarterSound}>sound</button>
-      </div>
-      <div>
-        <p>
+        <p className="text-4xl m-8 font-mono font-semibold ">
           {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
         </p>
-        <p>totalSeconds: {totalSeconds}</p>
-        <p>quarterDuartion: {quarterDuration}</p>
-        <p>counter: {counter}</p>
+        <section className="flex-col sm:flex-row sm:flex  justify-evenly p-4 bg-[#1a1a1a] w-[80vw] rounded-lg">
+          <p>totalSeconds: {totalSeconds}</p>
+          <p>quarterDuartion: {quarterDuration}</p>
+          <p>counter: {counter}</p>
+
+          {localStorage.getItem('minutes') && (
+            <p>{localStorage.getItem('minutes')} : minutes meditated</p>
+          )}
+        </section>
+        <div className="flex justify-evenly p-4">
+          <button onClick={startTimer}>Start</button>
+          <button onClick={isActive ? pauseTimer : resumeTimer}>
+            {isActive ? 'Pause' : 'Resume'}
+          </button>
+          <button onClick={resetTimer}>Reset</button>
+          <button onClick={playSound}>sound</button>
+        </div>
       </div>
     </div>
   );
