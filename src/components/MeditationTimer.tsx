@@ -31,7 +31,9 @@ const MeditationTimer: React.FC = () => {
   const countDown = () => {
     if (seconds === 0) {
       if (minutes === 0) {
-        clearInterval(intervalRef.current);
+        if (intervalRef.current) {
+          clearInterval(intervalRef.current);
+        }
         setCounter(0);
         playTada();
         // alert('Meditation time is up!');
