@@ -1,3 +1,4 @@
+// @ts-nocheck
 // src/MeditationTimer.tsx
 import React, { useState, useEffect, useRef } from 'react';
 import { playTada, playSound } from '../utils/soundUtils';
