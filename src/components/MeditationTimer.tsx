@@ -13,7 +13,7 @@ const MeditationTimer: React.FC = () => {
   const [counter, setCounter] = useState<number>(1);
 
   const [isActive, setIsActive] = useState<boolean>(false);
-  const intervalRef = useRef(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const playQuarterSound = (times = 1) => {
     const playSequentially = (index = 0) => {
