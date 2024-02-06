@@ -135,7 +135,7 @@ const MeditationTimer: React.FC = () => {
           <Button onClick={startTimer} color="primary">
             Start
           </Button>
-          <Button onClick={isActive ? pauseTimer : resumeTimer}>
+          <Button onClick={isActive ? pauseTimer : resumeTimer} isLoading>
             {isActive ? 'Pause' : 'Resume'}
           </Button>
           <button onClick={resetTimer}>Reset</button>
