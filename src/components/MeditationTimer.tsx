@@ -1,8 +1,8 @@
-// @ts-nocheck
 // src/MeditationTimer.tsx
 import React, { useState, useEffect, useRef } from 'react';
 import { playTada, playSound } from '../utils/soundUtils';
 import { saveRecord } from '../utils/saveRecord';
+import { Button } from '@nextui-org/react';
 
 const MeditationTimer: React.FC = () => {
   const [minutes, setMinutes] = useState<number>(0);
@@ -26,8 +26,6 @@ const MeditationTimer: React.FC = () => {
 
     playSequentially();
   };
-
-  //I want to make a Quarter sound on every each quarter has passed on the duration user set
 
   const countDown = () => {
     if (seconds === 0) {
@@ -134,10 +132,12 @@ const MeditationTimer: React.FC = () => {
           )}
         </section>
         <div className="flex justify-evenly p-4">
-          <button onClick={startTimer}>Start</button>
-          <button onClick={isActive ? pauseTimer : resumeTimer}>
+          <Button onClick={startTimer} color="primary">
+            Start
+          </Button>
+          <Button onClick={isActive ? pauseTimer : resumeTimer}>
             {isActive ? 'Pause' : 'Resume'}
-          </button>
+          </Button>
           <button onClick={resetTimer}>Reset</button>
           <button onClick={playSound}>sound</button>
         </div>
