@@ -118,30 +118,37 @@ const MeditationTimer: React.FC = () => {
           />
         </label>
       </div>
-      <div>
+      <div className="m-4">
         <p className="text-4xl m-8 font-mono font-semibold ">
           {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
         </p>
-        <section className="flex-col sm:flex-row sm:flex  justify-evenly p-4 bg-[#1a1a1a] w-[80vw] rounded-lg">
-          <p>totalSeconds: {totalSeconds}</p>
-          <p>quarterDuartion: {quarterDuration}</p>
-          <p>counter: {counter}</p>
 
-          {localStorage.getItem('minutes') && (
-            <p>{localStorage.getItem('minutes')} : minutes meditated</p>
+        <div className="flex justify-evenly p-4 w-1/2 items-cente m-auto">
+          {!isActive && !totalSeconds && (
+            <Button onClick={startTimer} color="primary">
+              Start
+            </Button>
           )}
-        </section>
-        <div className="flex justify-evenly p-4">
-          <Button onClick={startTimer} color="primary">
-            Start
-          </Button>
-          <Button onClick={isActive ? pauseTimer : resumeTimer} isLoading>
-            {isActive ? 'Pause' : 'Resume'}
-          </Button>
-          <button onClick={resetTimer}>Reset</button>
-          <button onClick={playSound}>sound</button>
+          {totalSeconds ? (
+            <>
+              <Button onClick={isActive ? pauseTimer : resumeTimer}>
+                {isActive ? 'Pause' : 'Resume'}
+              </Button>
+              {!isActive && <Button onClick={resetTimer}>Reset</Button>}
+            </>
+          ) : null}
         </div>
+        <button onClick={playSound}>sound</button>
       </div>
+      <section className="flex-col sm:flex-row sm:flex  justify-evenly p-4 bg-[#1a1a1a] w-[80vw] rounded-lg">
+        <p>totalSeconds: {totalSeconds}</p>
+        <p>quarterDuartion: {quarterDuration}</p>
+        <p>counter: {counter}</p>
+
+        {localStorage.getItem('minutes') && (
+          <p>{localStorage.getItem('minutes')} : minutes meditated</p>
+        )}
+      </section>
     </div>
   );
 };
