@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { playTada, playSound } from '../utils/soundUtils';
 import { saveRecord } from '../utils/saveRecord';
-import { Button } from '@nextui-org/react';
+import { Button, CircularProgress } from '@nextui-org/react';
 
 const MeditationTimer: React.FC = () => {
   const [minutes, setMinutes] = useState<number>(0);
@@ -118,10 +118,22 @@ const MeditationTimer: React.FC = () => {
           />
         </label>
       </div>
-      <div className="m-4">
-        <p className="text-4xl m-8 font-mono font-semibold ">
+      <main className="m-4">
+        <p className="text-8xl m-8 font-mono font-semibold ">
           {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
         </p>
+        <CircularProgress
+          classNames={{
+            svg: 'w-36 h-36 drop-shadow-md',
+            indicator: 'stroke-white',
+            track: 'stroke-white/10',
+            value: 'text-3xl font-semibold text-white',
+          }}
+          value={70}
+          strokeWidth={9}
+          showValueLabel={true}
+          formatOptions={{ style: 'unit', unit: 'kilometer' }}
+        />
 
         <div className="flex justify-evenly p-4 w-1/2 items-cente m-auto">
           {!isActive && !totalSeconds && (
@@ -138,8 +150,8 @@ const MeditationTimer: React.FC = () => {
             </>
           ) : null}
         </div>
-        <button onClick={playSound}>sound</button>
-      </div>
+        <Button onClick={playSound}>sound</Button>
+      </main>
       <section className="flex-col sm:flex-row sm:flex  justify-evenly p-4 bg-[#1a1a1a] w-[80vw] rounded-lg">
         <p>totalSeconds: {totalSeconds}</p>
         <p>quarterDuartion: {quarterDuration}</p>
