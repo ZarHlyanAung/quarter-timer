@@ -97,45 +97,36 @@ const MeditationTimer: React.FC = () => {
   };
 
   return (
-    <div>
-      <div>
-        <label className="">
-          Minutes:
-          <input
-            type="number"
-            value={minutes}
-            onChange={(e) => setMinutes(parseInt(e.target.value, 10))}
-            className="w-20 h-10 m-4 text-center rounded-md p-1"
-          />
-        </label>
-        <label>
-          Seconds:
-          <input
-            type="number"
-            value={seconds}
-            onChange={(e) => setSeconds(parseInt(e.target.value, 10))}
-            className="w-20 h-10 m-4 text-center rounded-md p-1"
-          />
-        </label>
-      </div>
+    <div className="flex-auto w-full flex flex-col items-center justify-center">
       <main className="m-4">
-        <p className="text-8xl m-8 font-mono font-semibold ">
-          {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
-        </p>
-        <CircularProgress
-          classNames={{
-            svg: 'w-36 h-36 drop-shadow-md',
-            indicator: 'stroke-white',
-            track: 'stroke-white/10',
-            value: 'text-3xl font-semibold text-white',
-          }}
-          value={70}
-          strokeWidth={9}
-          showValueLabel={true}
-          formatOptions={{ style: 'unit', unit: 'kilometer' }}
-        />
-
-        <div className="flex justify-evenly p-4 w-1/2 items-cente m-auto">
+        {!totalSeconds ? (
+          <div>
+            <label className="">
+              Minutes:
+              <input
+                type="number"
+                value={minutes}
+                onChange={(e) => setMinutes(parseInt(e.target.value, 10))}
+                className="w-20 h-10 m-4 text-center rounded-md p-1"
+              />
+            </label>
+            <label>
+              Seconds:
+              <input
+                type="number"
+                value={seconds}
+                onChange={(e) => setSeconds(parseInt(e.target.value, 10))}
+                className="w-20 h-10 m-4 text-center rounded-md p-1"
+              />
+            </label>
+          </div>
+        ) : (
+          <p className="text-8xl m-8 font-mono font-semibold ">
+            {String(minutes).padStart(2, '0')}:
+            {String(seconds).padStart(2, '0')}
+          </p>
+        )}
+        <div className="flex justify-evenly p-4 w-1/2 items-center m-auto">
           {!isActive && !totalSeconds && (
             <Button onClick={startTimer} color="primary">
               Start
