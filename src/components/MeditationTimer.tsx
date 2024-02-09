@@ -98,52 +98,55 @@ const MeditationTimer: React.FC = () => {
 
   return (
     <div className="flex-auto w-full flex flex-col items-center justify-center">
-      <main className="m-4">
-        {!totalSeconds ? (
-          <div>
-            <label className="">
-              Minutes:
-              <input
-                type="number"
-                value={minutes}
-                onChange={(e) => setMinutes(parseInt(e.target.value, 10))}
-                className="w-20 h-10 m-4 text-center rounded-md p-1"
-              />
-            </label>
-            <label>
-              Seconds:
-              <input
-                type="number"
-                value={seconds}
-                onChange={(e) => setSeconds(parseInt(e.target.value, 10))}
-                className="w-20 h-10 m-4 text-center rounded-md p-1"
-              />
-            </label>
-          </div>
-        ) : (
-          <p className="text-8xl m-8 font-mono font-semibold ">
-            {String(minutes).padStart(2, '0')}:
-            {String(seconds).padStart(2, '0')}
-          </p>
-        )}
-        <div className="flex justify-evenly p-4 w-1/2 items-center m-auto">
-          {!isActive && !totalSeconds && (
-            <Button onClick={startTimer} color="primary">
-              Start
-            </Button>
-          )}
-          {totalSeconds ? (
-            <>
-              <Button onClick={isActive ? pauseTimer : resumeTimer}>
-                {isActive ? 'Pause' : 'Resume'}
-              </Button>
-              {!isActive && <Button onClick={resetTimer}>Reset</Button>}
-            </>
-          ) : null}
+      {!totalSeconds ? (
+        <div>
+          <label className="">
+            Minutes:
+            <input
+              type="number"
+              value={minutes}
+              onChange={(e) => setMinutes(parseInt(e.target.value, 10))}
+              className="w-20 h-10 m-4 text-center rounded-md p-1"
+            />
+          </label>
+          <label>
+            Seconds:
+            <input
+              type="number"
+              value={seconds}
+              onChange={(e) => setSeconds(parseInt(e.target.value, 10))}
+              className="w-20 h-10 m-4 text-center rounded-md p-1"
+            />
+          </label>
         </div>
-        <Button onClick={playSound}>sound</Button>
-      </main>
-      <section className="flex-col sm:flex-row sm:flex  justify-evenly p-4 bg-[#1a1a1a] w-[80vw] rounded-lg">
+      ) : (
+        <p className="text-8xl m-8 font-mono font-semibold ">
+          {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
+        </p>
+      )}
+      <div className="flex justify-evenly p-4 w-1/2 items-center">
+        {!isActive && !totalSeconds && (
+          <Button onClick={startTimer} color="primary">
+            Start
+          </Button>
+        )}
+        {totalSeconds ? (
+          <>
+            <Button onClick={isActive ? pauseTimer : resumeTimer}>
+              {isActive ? 'Pause' : 'Resume'}
+            </Button>
+            {!isActive && <Button onClick={resetTimer}>Reset</Button>}
+          </>
+        ) : null}
+      </div>
+      <Button
+        onClick={playSound}
+        className="fixed bottom-0 right-0 bg-transparent"
+      >
+        sound
+      </Button>
+
+      {/* <section className="flex-col sm:flex-row sm:flex  justify-evenly p-4 bg-[#1a1a1a] w-[80vw] rounded-lg">
         <p>totalSeconds: {totalSeconds}</p>
         <p>quarterDuartion: {quarterDuration}</p>
         <p>counter: {counter}</p>
@@ -151,7 +154,7 @@ const MeditationTimer: React.FC = () => {
         {localStorage.getItem('minutes') && (
           <p>{localStorage.getItem('minutes')} : minutes meditated</p>
         )}
-      </section>
+      </section> */}
     </div>
   );
 };
