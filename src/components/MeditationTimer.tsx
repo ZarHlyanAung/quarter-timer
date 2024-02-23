@@ -3,6 +3,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { playTada, playSound } from '../utils/soundUtils';
 import { saveRecord } from '../utils/saveRecord';
 import { Button, CircularProgress } from '@nextui-org/react';
+import TimerControls from './TimerControls';
+import MyInput from './MyInput';
+import Input from './input/Input';
 
 const MeditationTimer: React.FC = () => {
   const [minutes, setMinutes] = useState<number>(0);
@@ -98,17 +101,16 @@ const MeditationTimer: React.FC = () => {
 
   return (
     <div className="flex-auto w-full flex flex-col items-center justify-center">
+      <p className="text-8xl m-8 font-mono font-semibold ">
+        {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
+      </p>
       {!totalSeconds ? (
         <div>
-          <label className="">
-            Minutes:
-            <input
-              type="number"
-              value={minutes}
-              onChange={(e) => setMinutes(parseInt(e.target.value, 10))}
-              className="w-20 h-10 m-4 text-center rounded-md p-1"
-            />
-          </label>
+          <Input
+            label="Minutes"
+            value={minutes}
+            onChange={(e) => setMinutes(parseInt(e.target.value, 10))}
+          />
           <label>
             Seconds:
             <input
@@ -120,25 +122,15 @@ const MeditationTimer: React.FC = () => {
           </label>
         </div>
       ) : (
-        <p className="text-8xl m-8 font-mono font-semibold ">
-          {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
-        </p>
+        <></>
       )}
-      <div className="flex justify-evenly p-4 w-1/2 items-center">
-        {!isActive && !totalSeconds && (
-          <Button onClick={startTimer} color="primary">
-            Start
-          </Button>
-        )}
-        {totalSeconds ? (
-          <>
-            <Button onClick={isActive ? pauseTimer : resumeTimer}>
-              {isActive ? 'Pause' : 'Resume'}
-            </Button>
-            {!isActive && <Button onClick={resetTimer}>Reset</Button>}
-          </>
-        ) : null}
-      </div>
+      <TimerControls
+        startTimer={startTimer}
+        pauseResumeTimer={isActive ? pauseTimer : resumeTimer}
+        resetTimer={resetTimer}
+        isActive={isActive}
+        totalSeconds={totalSeconds}
+      />
       <Button
         onClick={playSound}
         className="fixed bottom-0 right-0 bg-transparent"
