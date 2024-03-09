@@ -1,11 +1,10 @@
 // src/MeditationTimer.tsx
+
 import React, { useState, useEffect, useRef } from 'react';
 import { playTada, playSound } from '../utils/soundUtils';
 import { saveRecord } from '../utils/saveRecord';
-import { Button, CircularProgress } from '@nextui-org/react';
 import TimerControls from './TimerControls';
-import MyInput from './MyInput';
-import Input from './input/Input';
+// import Input from './input/Input';
 
 const MeditationTimer: React.FC = () => {
   const [minutes, setMinutes] = useState<number>(0);
@@ -106,11 +105,15 @@ const MeditationTimer: React.FC = () => {
       </p>
       {!totalSeconds ? (
         <div>
-          <Input
-            label="Minutes"
-            value={minutes}
-            onChange={(e) => setMinutes(parseInt(e.target.value, 10))}
-          />
+          <label>
+            Minutes:
+            <input
+              type="number"
+              value={minutes}
+              onChange={(e) => setMinutes(parseInt(e.target.value, 10))}
+              className="w-20 h-10 m-4 text-center rounded-md p-1"
+            />
+          </label>
           <label>
             Seconds:
             <input
@@ -131,9 +134,8 @@ const MeditationTimer: React.FC = () => {
         isActive={isActive}
         totalSeconds={totalSeconds}
       />
-     
 
-      {/* <section className="flex-col sm:flex-row sm:flex  justify-evenly p-4 bg-[#1a1a1a] w-[80vw] rounded-lg">
+      <section className="flex-col sm:flex-row sm:flex  justify-evenly p-4 border-4 w-[80vw] rounded-lg">
         <p>totalSeconds: {totalSeconds}</p>
         <p>quarterDuartion: {quarterDuration}</p>
         <p>counter: {counter}</p>
@@ -141,7 +143,7 @@ const MeditationTimer: React.FC = () => {
         {localStorage.getItem('minutes') && (
           <p>{localStorage.getItem('minutes')} : minutes meditated</p>
         )}
-      </section> */}
+      </section>
     </div>
   );
 };

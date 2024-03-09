@@ -23,13 +23,15 @@ const TimerControls: React.FC<TimerControlsProps> = ({
         Start
       </Button>
     )}
-    {totalSeconds && (
+    {totalSeconds ? (
       <>
         <Button onClick={pauseResumeTimer}>
           {isActive ? 'Pause' : 'Resume'}
         </Button>
         {!isActive && <Button onClick={resetTimer}>Reset</Button>}
       </>
+    ) : (
+      <></>
     )}
   </div>
 );
