@@ -131,12 +131,7 @@ const MeditationTimer: React.FC = () => {
         isActive={isActive}
         totalSeconds={totalSeconds}
       />
-      <Button
-        onClick={playSound}
-        className="fixed bottom-0 right-0 bg-transparent"
-      >
-        sound
-      </Button>
+     
 
       {/* <section className="flex-col sm:flex-row sm:flex  justify-evenly p-4 bg-[#1a1a1a] w-[80vw] rounded-lg">
         <p>totalSeconds: {totalSeconds}</p>
